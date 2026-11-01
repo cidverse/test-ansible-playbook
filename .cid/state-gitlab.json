@@ -1,10 +1,10 @@
 {
   "workflows": {
     "Nightly": {
-      "version": "0.9.0",
+      "version": "0.11.13",
       "name": "Nightly",
       "name_slug": "nightly",
-      "job_timeout": 10,
+      "job_timeout": 20,
       "default_branch": "main",
       "container_runtime": "podman",
       "workflow_key": "nightly",
@@ -13,8 +13,21 @@
         "trigger_manual": true,
         "trigger_cron": true,
         "trigger_cron_schedule": "10 1 * * 1",
+        "trigger_schedule_branches": [
+          "main"
+        ],
         "environment_pattern": "nightly-.*"
       },
+      "network_global": [
+        "github.com:443",
+        "api.github.com:443",
+        "codeload.github.com:443",
+        "uploads.github.com:443",
+        "objects.githubusercontent.com:443",
+        "raw.githubusercontent.com:443",
+        "ghcr.io:443",
+        "pkg-containers.githubusercontent.com:443"
+      ],
       "plan": {
         "name": "main",
         "stages": [
@@ -45,31 +58,8 @@
                   "name": "gitlab-sarif-converter"
                 }
               ],
-              "network": [
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
+              "resources": [
+                "security-events"
               ]
             },
             "inputs": {},
@@ -104,31 +94,8 @@
                   "name": "gitlab-sarif-converter"
                 }
               ],
-              "network": [
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
+              "resources": [
+                "security-events"
               ]
             },
             "inputs": {},
@@ -156,12 +123,10 @@
             "access": {
               "env": [
                 {
-                  "name": "SEMGREP_RULES",
-                  "description": "See option --config."
+                  "name": "SEMGREP_RULES"
                 },
                 {
                   "name": "SEMGREP_APP_TOKEN",
-                  "description": "Semgrep AppSec Platform Token",
                   "secret": true
                 }
               ],
@@ -175,33 +140,10 @@
                 }
               ],
               "network": [
-                {
-                  "host": "semgrep.dev:443"
-                },
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
+                "semgrep.dev:443"
+              ],
+              "resources": [
+                "security-events"
               ]
             },
             "inputs": {},
@@ -237,33 +179,10 @@
                 }
               ],
               "network": [
-                {
-                  "host": "mirror.gcr.io:443"
-                },
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
+                "mirror.gcr.io:443"
+              ],
+              "resources": [
+                "security-events"
               ]
             },
             "inputs": {},
@@ -294,7 +213,9 @@
         "pkg:github/cidverse/cid": {
           "id": "cidverse/cid",
           "type": "github",
-          "version": "0.9.0"
+          "version": "0.11.13",
+          "hash": "800d546523ee7c20a031a250bff0651e741c89211b6bec66bfaeeeb47664f5c9",
+          "gpg-fingerprint": "76A4948E69C62589C7B0AB84E414434DF5371FB6"
         }
       },
       "ignore_files": [
@@ -309,18 +230,31 @@
       ]
     },
     "Pull Request": {
-      "version": "0.9.0",
+      "version": "0.11.13",
       "name": "Pull Request",
       "name_slug": "pull-request",
-      "job_timeout": 10,
+      "job_timeout": 20,
       "default_branch": "main",
       "container_runtime": "podman",
       "workflow_key": "pull-request",
       "workflow_config": {
         "type": "pull-request",
         "trigger_pull_request": true,
+        "trigger_pull_request_branches": [
+          "main"
+        ],
         "environment_pattern": "pr-.*"
       },
+      "network_global": [
+        "github.com:443",
+        "api.github.com:443",
+        "codeload.github.com:443",
+        "uploads.github.com:443",
+        "objects.githubusercontent.com:443",
+        "raw.githubusercontent.com:443",
+        "ghcr.io:443",
+        "pkg-containers.githubusercontent.com:443"
+      ],
       "plan": {
         "name": "main",
         "stages": [
@@ -351,31 +285,8 @@
                   "name": "gitlab-sarif-converter"
                 }
               ],
-              "network": [
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
+              "resources": [
+                "security-events"
               ]
             },
             "inputs": {},
@@ -410,31 +321,8 @@
                   "name": "gitlab-sarif-converter"
                 }
               ],
-              "network": [
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
+              "resources": [
+                "security-events"
               ]
             },
             "inputs": {},
@@ -462,12 +350,10 @@
             "access": {
               "env": [
                 {
-                  "name": "SEMGREP_RULES",
-                  "description": "See option --config."
+                  "name": "SEMGREP_RULES"
                 },
                 {
                   "name": "SEMGREP_APP_TOKEN",
-                  "description": "Semgrep AppSec Platform Token",
                   "secret": true
                 }
               ],
@@ -481,33 +367,10 @@
                 }
               ],
               "network": [
-                {
-                  "host": "semgrep.dev:443"
-                },
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
+                "semgrep.dev:443"
+              ],
+              "resources": [
+                "security-events"
               ]
             },
             "inputs": {},
@@ -543,33 +406,10 @@
                 }
               ],
               "network": [
-                {
-                  "host": "mirror.gcr.io:443"
-                },
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
+                "mirror.gcr.io:443"
+              ],
+              "resources": [
+                "security-events"
               ]
             },
             "inputs": {},
@@ -600,7 +440,9 @@
         "pkg:github/cidverse/cid": {
           "id": "cidverse/cid",
           "type": "github",
-          "version": "0.9.0"
+          "version": "0.11.13",
+          "hash": "800d546523ee7c20a031a250bff0651e741c89211b6bec66bfaeeeb47664f5c9",
+          "gpg-fingerprint": "76A4948E69C62589C7B0AB84E414434DF5371FB6"
         }
       },
       "ignore_files": [
@@ -615,10 +457,10 @@
       ]
     },
     "Release": {
-      "version": "0.9.0",
+      "version": "0.11.13",
       "name": "Release",
       "name_slug": "release",
-      "job_timeout": 10,
+      "job_timeout": 20,
       "default_branch": "main",
       "container_runtime": "podman",
       "workflow_key": "release",
@@ -631,6 +473,16 @@
         ],
         "environment_pattern": "release-.*"
       },
+      "network_global": [
+        "github.com:443",
+        "api.github.com:443",
+        "codeload.github.com:443",
+        "uploads.github.com:443",
+        "objects.githubusercontent.com:443",
+        "raw.githubusercontent.com:443",
+        "ghcr.io:443",
+        "pkg-containers.githubusercontent.com:443"
+      ],
       "plan": {
         "name": "main",
         "stages": [
@@ -656,31 +508,8 @@
                   "name": "gitlab-sarif-converter"
                 }
               ],
-              "network": [
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
+              "resources": [
+                "security-events"
               ]
             },
             "inputs": {},
@@ -708,12 +537,10 @@
             "access": {
               "env": [
                 {
-                  "name": "SEMGREP_RULES",
-                  "description": "See option --config."
+                  "name": "SEMGREP_RULES"
                 },
                 {
                   "name": "SEMGREP_APP_TOKEN",
-                  "description": "Semgrep AppSec Platform Token",
                   "secret": true
                 }
               ],
@@ -727,33 +554,10 @@
                 }
               ],
               "network": [
-                {
-                  "host": "semgrep.dev:443"
-                },
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
+                "semgrep.dev:443"
+              ],
+              "resources": [
+                "security-events"
               ]
             },
             "inputs": {},
@@ -789,33 +593,10 @@
                 }
               ],
               "network": [
-                {
-                  "host": "mirror.gcr.io:443"
-                },
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
+                "mirror.gcr.io:443"
+              ],
+              "resources": [
+                "security-events"
               ]
             },
             "inputs": {},
@@ -850,34 +631,7 @@
               "semgrep-scan",
               "trivyfs-scan"
             ],
-            "access": {
-              "network": [
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
-              ]
-            },
+            "access": {},
             "inputs": {},
             "outputs": {
               "artifacts": [
@@ -917,42 +671,13 @@
               "env": [
                 {
                   "name": "CI_JOB_TOKEN",
-                  "description": "The GitLab job token to use for authentication. Preferred over personal access tokens.",
                   "secret": true
                 },
                 {
-                  "name": "GITLAB_TOKEN",
-                  "description": "The GitLab token to use for creating the release when using a personal access token."
+                  "name": "GITLAB_TOKEN"
                 },
                 {
-                  "name": "GITLAB_BOT_TOKEN",
-                  "description": "The GitLab token to use for creating the release when using a project bot account."
-                }
-              ],
-              "network": [
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
+                  "name": "GITLAB_BOT_TOKEN"
                 }
               ]
             },
@@ -963,6 +688,10 @@
                 },
                 {
                   "type": "binary"
+                },
+                {
+                  "type": "signature",
+                  "format": "pgp"
                 }
               ]
             },
@@ -995,12 +724,10 @@
             "access": {
               "env": [
                 {
-                  "name": "ANSIBLE_PLAYBOOK",
-                  "description": "The ansible playbook to deploy."
+                  "name": "ANSIBLE_PLAYBOOK"
                 },
                 {
-                  "name": "ANSIBLE_INVENTORY",
-                  "description": "The ansible inventory to use. Defaults to 'inventory'."
+                  "name": "ANSIBLE_INVENTORY"
                 }
               ],
               "executables": [
@@ -1011,32 +738,6 @@
                 {
                   "name": "ansible-galaxy",
                   "constraint": "\u003e= 0.0.0-0"
-                }
-              ],
-              "network": [
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
                 }
               ]
             },
@@ -1057,7 +758,9 @@
         "pkg:github/cidverse/cid": {
           "id": "cidverse/cid",
           "type": "github",
-          "version": "0.9.0"
+          "version": "0.11.13",
+          "hash": "800d546523ee7c20a031a250bff0651e741c89211b6bec66bfaeeeb47664f5c9",
+          "gpg-fingerprint": "76A4948E69C62589C7B0AB84E414434DF5371FB6"
         }
       },
       "ignore_files": [
@@ -1072,10 +775,10 @@
       ]
     },
     "Main": {
-      "version": "0.9.0",
+      "version": "0.11.13",
       "name": "Main",
       "name_slug": "main",
-      "job_timeout": 10,
+      "job_timeout": 20,
       "default_branch": "main",
       "container_runtime": "podman",
       "workflow_key": "main",
@@ -1087,6 +790,16 @@
           "main"
         ]
       },
+      "network_global": [
+        "github.com:443",
+        "api.github.com:443",
+        "codeload.github.com:443",
+        "uploads.github.com:443",
+        "objects.githubusercontent.com:443",
+        "raw.githubusercontent.com:443",
+        "ghcr.io:443",
+        "pkg-containers.githubusercontent.com:443"
+      ],
       "plan": {
         "name": "main",
         "stages": [
@@ -1117,31 +830,8 @@
                   "name": "gitlab-sarif-converter"
                 }
               ],
-              "network": [
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
+              "resources": [
+                "security-events"
               ]
             },
             "inputs": {},
@@ -1176,31 +866,8 @@
                   "name": "gitlab-sarif-converter"
                 }
               ],
-              "network": [
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
+              "resources": [
+                "security-events"
               ]
             },
             "inputs": {},
@@ -1228,12 +895,10 @@
             "access": {
               "env": [
                 {
-                  "name": "SEMGREP_RULES",
-                  "description": "See option --config."
+                  "name": "SEMGREP_RULES"
                 },
                 {
                   "name": "SEMGREP_APP_TOKEN",
-                  "description": "Semgrep AppSec Platform Token",
                   "secret": true
                 }
               ],
@@ -1247,33 +912,10 @@
                 }
               ],
               "network": [
-                {
-                  "host": "semgrep.dev:443"
-                },
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
+                "semgrep.dev:443"
+              ],
+              "resources": [
+                "security-events"
               ]
             },
             "inputs": {},
@@ -1309,33 +951,10 @@
                 }
               ],
               "network": [
-                {
-                  "host": "mirror.gcr.io:443"
-                },
-                {
-                  "host": "github.com:443"
-                },
-                {
-                  "host": "api.github.com:443"
-                },
-                {
-                  "host": "codeload.github.com:443"
-                },
-                {
-                  "host": "uploads.github.com:443"
-                },
-                {
-                  "host": "objects.githubusercontent.com:443"
-                },
-                {
-                  "host": "raw.githubusercontent.com:443"
-                },
-                {
-                  "host": "ghcr.io:443"
-                },
-                {
-                  "host": "pkg-containers.githubusercontent.com:443"
-                }
+                "mirror.gcr.io:443"
+              ],
+              "resources": [
+                "security-events"
               ]
             },
             "inputs": {},
@@ -1366,7 +985,9 @@
         "pkg:github/cidverse/cid": {
           "id": "cidverse/cid",
           "type": "github",
-          "version": "0.9.0"
+          "version": "0.11.13",
+          "hash": "800d546523ee7c20a031a250bff0651e741c89211b6bec66bfaeeeb47664f5c9",
+          "gpg-fingerprint": "76A4948E69C62589C7B0AB84E414434DF5371FB6"
         }
       },
       "ignore_files": [
