@@ -1,7 +1,7 @@
 {
   "workflows": {
     "Nightly": {
-      "version": "0.11.13",
+      "version": "0.12.0",
       "name": "Nightly",
       "name_slug": "nightly",
       "job_timeout": 20,
@@ -19,14 +19,15 @@
         "environment_pattern": "nightly-.*"
       },
       "network_global": [
+        "http://keyserver.ubuntu.com:443|GET,HEAD:/pks/lookup",
         "github.com:443",
         "api.github.com:443",
         "codeload.github.com:443",
-        "uploads.github.com:443",
         "objects.githubusercontent.com:443",
         "raw.githubusercontent.com:443",
-        "ghcr.io:443",
-        "pkg-containers.githubusercontent.com:443"
+        "release-assets.githubusercontent.com:443",
+        "http://ghcr.io:443|GET,HEAD:/v2/,/v2/**,/token",
+        "http://pkg-containers.githubusercontent.com:443|GET,HEAD"
       ],
       "plan": {
         "name": "main",
@@ -79,15 +80,15 @@
           },
           {
             "id": "1",
-            "name": "gitleaks-scan",
-            "slug": "gitleaks-scan",
+            "name": "betterleaks-scan",
+            "slug": "betterleaks-scan",
             "stage": "scan",
             "scope": "project",
-            "action": "builtin://actions/gitleaks-scan",
+            "action": "builtin://actions/betterleaks-scan",
             "access": {
               "executables": [
                 {
-                  "name": "gitleaks",
+                  "name": "betterleaks",
                   "constraint": "\u003e= 0.0.0-0"
                 },
                 {
@@ -140,7 +141,7 @@
                 }
               ],
               "network": [
-                "semgrep.dev:443"
+                "http://semgrep.dev:443|GET,HEAD|POST,PUT:/api/**"
               ],
               "resources": [
                 "security-events"
@@ -172,14 +173,14 @@
               "executables": [
                 {
                   "name": "trivy",
-                  "constraint": "=\u003e 0.61.0"
+                  "constraint": "\u003e 0.69.6"
                 },
                 {
                   "name": "gitlab-sarif-converter"
                 }
               ],
               "network": [
-                "mirror.gcr.io:443"
+                "http://mirror.gcr.io:443|GET,HEAD"
               ],
               "resources": [
                 "security-events"
@@ -213,8 +214,8 @@
         "pkg:github/cidverse/cid": {
           "id": "cidverse/cid",
           "type": "github",
-          "version": "0.11.13",
-          "hash": "800d546523ee7c20a031a250bff0651e741c89211b6bec66bfaeeeb47664f5c9",
+          "version": "0.12.0",
+          "hash": "11f989eb1e3576b043abce9590a5f1f33053b0674002feb02c0c0d71e842fbb6",
           "gpg-fingerprint": "76A4948E69C62589C7B0AB84E414434DF5371FB6"
         }
       },
@@ -230,7 +231,7 @@
       ]
     },
     "Pull Request": {
-      "version": "0.11.13",
+      "version": "0.12.0",
       "name": "Pull Request",
       "name_slug": "pull-request",
       "job_timeout": 20,
@@ -246,14 +247,15 @@
         "environment_pattern": "pr-.*"
       },
       "network_global": [
+        "http://keyserver.ubuntu.com:443|GET,HEAD:/pks/lookup",
         "github.com:443",
         "api.github.com:443",
         "codeload.github.com:443",
-        "uploads.github.com:443",
         "objects.githubusercontent.com:443",
         "raw.githubusercontent.com:443",
-        "ghcr.io:443",
-        "pkg-containers.githubusercontent.com:443"
+        "release-assets.githubusercontent.com:443",
+        "http://ghcr.io:443|GET,HEAD:/v2/,/v2/**,/token",
+        "http://pkg-containers.githubusercontent.com:443|GET,HEAD"
       ],
       "plan": {
         "name": "main",
@@ -306,15 +308,15 @@
           },
           {
             "id": "1",
-            "name": "gitleaks-scan",
-            "slug": "gitleaks-scan",
+            "name": "betterleaks-scan",
+            "slug": "betterleaks-scan",
             "stage": "scan",
             "scope": "project",
-            "action": "builtin://actions/gitleaks-scan",
+            "action": "builtin://actions/betterleaks-scan",
             "access": {
               "executables": [
                 {
-                  "name": "gitleaks",
+                  "name": "betterleaks",
                   "constraint": "\u003e= 0.0.0-0"
                 },
                 {
@@ -367,7 +369,7 @@
                 }
               ],
               "network": [
-                "semgrep.dev:443"
+                "http://semgrep.dev:443|GET,HEAD|POST,PUT:/api/**"
               ],
               "resources": [
                 "security-events"
@@ -399,14 +401,14 @@
               "executables": [
                 {
                   "name": "trivy",
-                  "constraint": "=\u003e 0.61.0"
+                  "constraint": "\u003e 0.69.6"
                 },
                 {
                   "name": "gitlab-sarif-converter"
                 }
               ],
               "network": [
-                "mirror.gcr.io:443"
+                "http://mirror.gcr.io:443|GET,HEAD"
               ],
               "resources": [
                 "security-events"
@@ -440,8 +442,8 @@
         "pkg:github/cidverse/cid": {
           "id": "cidverse/cid",
           "type": "github",
-          "version": "0.11.13",
-          "hash": "800d546523ee7c20a031a250bff0651e741c89211b6bec66bfaeeeb47664f5c9",
+          "version": "0.12.0",
+          "hash": "11f989eb1e3576b043abce9590a5f1f33053b0674002feb02c0c0d71e842fbb6",
           "gpg-fingerprint": "76A4948E69C62589C7B0AB84E414434DF5371FB6"
         }
       },
@@ -457,7 +459,7 @@
       ]
     },
     "Release": {
-      "version": "0.11.13",
+      "version": "0.12.0",
       "name": "Release",
       "name_slug": "release",
       "job_timeout": 20,
@@ -474,14 +476,15 @@
         "environment_pattern": "release-.*"
       },
       "network_global": [
+        "http://keyserver.ubuntu.com:443|GET,HEAD:/pks/lookup",
         "github.com:443",
         "api.github.com:443",
         "codeload.github.com:443",
-        "uploads.github.com:443",
         "objects.githubusercontent.com:443",
         "raw.githubusercontent.com:443",
-        "ghcr.io:443",
-        "pkg-containers.githubusercontent.com:443"
+        "release-assets.githubusercontent.com:443",
+        "http://ghcr.io:443|GET,HEAD:/v2/,/v2/**,/token",
+        "http://pkg-containers.githubusercontent.com:443|GET,HEAD"
       ],
       "plan": {
         "name": "main",
@@ -493,15 +496,15 @@
         "steps": [
           {
             "id": "0",
-            "name": "gitleaks-scan",
-            "slug": "gitleaks-scan",
+            "name": "betterleaks-scan",
+            "slug": "betterleaks-scan",
             "stage": "scan",
             "scope": "project",
-            "action": "builtin://actions/gitleaks-scan",
+            "action": "builtin://actions/betterleaks-scan",
             "access": {
               "executables": [
                 {
-                  "name": "gitleaks",
+                  "name": "betterleaks",
                   "constraint": "\u003e= 0.0.0-0"
                 },
                 {
@@ -554,7 +557,7 @@
                 }
               ],
               "network": [
-                "semgrep.dev:443"
+                "http://semgrep.dev:443|GET,HEAD|POST,PUT:/api/**"
               ],
               "resources": [
                 "security-events"
@@ -586,14 +589,14 @@
               "executables": [
                 {
                   "name": "trivy",
-                  "constraint": "=\u003e 0.61.0"
+                  "constraint": "\u003e 0.69.6"
                 },
                 {
                   "name": "gitlab-sarif-converter"
                 }
               ],
               "network": [
-                "mirror.gcr.io:443"
+                "http://mirror.gcr.io:443|GET,HEAD"
               ],
               "resources": [
                 "security-events"
@@ -622,12 +625,12 @@
             "scope": "project",
             "action": "builtin://actions/changelog-generate",
             "run-after": [
-              "gitleaks-scan",
+              "betterleaks-scan",
               "semgrep-scan",
               "trivyfs-scan"
             ],
             "run-after-by-name": [
-              "gitleaks-scan",
+              "betterleaks-scan",
               "semgrep-scan",
               "trivyfs-scan"
             ],
@@ -650,14 +653,14 @@
             "scope": "project",
             "action": "builtin://actions/gitlab-release-publish",
             "run-after": [
+              "betterleaks-scan",
               "changelog-generate",
-              "gitleaks-scan",
               "semgrep-scan",
               "trivyfs-scan"
             ],
             "run-after-by-name": [
+              "betterleaks-scan",
               "changelog-generate",
-              "gitleaks-scan",
               "semgrep-scan",
               "trivyfs-scan"
             ],
@@ -708,16 +711,16 @@
             "module": "ansible-test-ansible-playbook-playbook-yaml",
             "module-dir": "test-ansible-playbook",
             "run-after": [
+              "betterleaks-scan",
               "changelog-generate",
               "gitlab-release-publish",
-              "gitleaks-scan",
               "semgrep-scan",
               "trivyfs-scan"
             ],
             "run-after-by-name": [
+              "betterleaks-scan",
               "changelog-generate",
               "gitlab-release-publish",
-              "gitleaks-scan",
               "semgrep-scan",
               "trivyfs-scan"
             ],
@@ -758,8 +761,8 @@
         "pkg:github/cidverse/cid": {
           "id": "cidverse/cid",
           "type": "github",
-          "version": "0.11.13",
-          "hash": "800d546523ee7c20a031a250bff0651e741c89211b6bec66bfaeeeb47664f5c9",
+          "version": "0.12.0",
+          "hash": "11f989eb1e3576b043abce9590a5f1f33053b0674002feb02c0c0d71e842fbb6",
           "gpg-fingerprint": "76A4948E69C62589C7B0AB84E414434DF5371FB6"
         }
       },
@@ -775,7 +778,7 @@
       ]
     },
     "Main": {
-      "version": "0.11.13",
+      "version": "0.12.0",
       "name": "Main",
       "name_slug": "main",
       "job_timeout": 20,
@@ -791,14 +794,15 @@
         ]
       },
       "network_global": [
+        "http://keyserver.ubuntu.com:443|GET,HEAD:/pks/lookup",
         "github.com:443",
         "api.github.com:443",
         "codeload.github.com:443",
-        "uploads.github.com:443",
         "objects.githubusercontent.com:443",
         "raw.githubusercontent.com:443",
-        "ghcr.io:443",
-        "pkg-containers.githubusercontent.com:443"
+        "release-assets.githubusercontent.com:443",
+        "http://ghcr.io:443|GET,HEAD:/v2/,/v2/**,/token",
+        "http://pkg-containers.githubusercontent.com:443|GET,HEAD"
       ],
       "plan": {
         "name": "main",
@@ -851,15 +855,15 @@
           },
           {
             "id": "1",
-            "name": "gitleaks-scan",
-            "slug": "gitleaks-scan",
+            "name": "betterleaks-scan",
+            "slug": "betterleaks-scan",
             "stage": "scan",
             "scope": "project",
-            "action": "builtin://actions/gitleaks-scan",
+            "action": "builtin://actions/betterleaks-scan",
             "access": {
               "executables": [
                 {
-                  "name": "gitleaks",
+                  "name": "betterleaks",
                   "constraint": "\u003e= 0.0.0-0"
                 },
                 {
@@ -912,7 +916,7 @@
                 }
               ],
               "network": [
-                "semgrep.dev:443"
+                "http://semgrep.dev:443|GET,HEAD|POST,PUT:/api/**"
               ],
               "resources": [
                 "security-events"
@@ -944,14 +948,14 @@
               "executables": [
                 {
                   "name": "trivy",
-                  "constraint": "=\u003e 0.61.0"
+                  "constraint": "\u003e 0.69.6"
                 },
                 {
                   "name": "gitlab-sarif-converter"
                 }
               ],
               "network": [
-                "mirror.gcr.io:443"
+                "http://mirror.gcr.io:443|GET,HEAD"
               ],
               "resources": [
                 "security-events"
@@ -985,8 +989,8 @@
         "pkg:github/cidverse/cid": {
           "id": "cidverse/cid",
           "type": "github",
-          "version": "0.11.13",
-          "hash": "800d546523ee7c20a031a250bff0651e741c89211b6bec66bfaeeeb47664f5c9",
+          "version": "0.12.0",
+          "hash": "11f989eb1e3576b043abce9590a5f1f33053b0674002feb02c0c0d71e842fbb6",
           "gpg-fingerprint": "76A4948E69C62589C7B0AB84E414434DF5371FB6"
         }
       },
